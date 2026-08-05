@@ -9,6 +9,7 @@ $(document).ready(function() {
   let baseFilename = window.location.hash;
   baseFilename = baseFilename.replace('#', '');
   let filename = 'recipes/' + baseFilename + '.md';
+  let fallbackFilename = 'recipes/' + baseFilename;
 
   // if there's a hero image available, load and display
   if (lookForHeroImage) {
@@ -26,9 +27,10 @@ $(document).ready(function() {
   }
 
   // load the recipe
-  $.ajax({
-    url: filename,
-    success: function(recipe) {
+  function loadRecipe(url) {
+    $.ajax({
+      url: url,
+      success: function(recipe) {
 
       // convert markdown to html, split into sections
       // regex via: https://pineco.de/snippets/split-strings-and-keep-the-delimiter
@@ -131,12 +133,19 @@ $(document).ready(function() {
     }, 
 
     // no recipe listed or some problem?
-    // redirect to the main page
+    // either try the fallback path or redirect to the main page
     error: function(xhr, status, err) {
-      console.log(err);
-      window.location.href = 'index.html';
+      if (url === filename && fallbackFilename !== filename) {
+        loadRecipe(fallbackFilename);
+      } else {
+        console.log(err);
+        window.location.href = 'index.html';
+      }
     }
   });
+}
+
+  loadRecipe(filename);
 
   // L/R arrow keys shift the step highlight
   $(document).keydown(function(e) {

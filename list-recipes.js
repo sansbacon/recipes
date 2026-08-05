@@ -18,7 +18,7 @@ $(document).ready(function() {
     }
 
     // create anchor and name from url
-    let anchor = url.replace('.md', '');
+    let anchor = url.replace(/\.md$/i, '');
     let name = anchor.split('-').join(' ');
 
     // if the first letter of the recipe hasn't been

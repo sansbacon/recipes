@@ -3,8 +3,7 @@
 # A hook script to find all recipe Markdown files and list them in the
 # index.html page appropriately
 
-RECIPES=$(find ./recipes/ | grep "\.md$" | sed 's/\.\/recipes\///g' \
-          | sed 's/.*/"\0"/g' | sort | awk '{print}' ORS=', ' | sed 's/, $//g')
+RECIPES=$(find ./recipes/ -type f | sed 's#^./recipes/##' | grep -v '^_' | sed 's/.*/"\0"/g' | sort | awk '{print}' ORS=', ' | sed 's/, $//g')
 REPLACE="let commitSetRecipes = [$RECIPES];"
 
 sed -i.bak "s/let commitSetRecipes = \[.*\];/${REPLACE}/" ./index.html

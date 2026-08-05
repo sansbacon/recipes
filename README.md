@@ -7,6 +7,7 @@ A super minimal recipe website – great for keeping track of family recipes, m
 Features:
 * Recipes in a simple [Markdown format](https://daringfireball.net/projects/markdown), just dump them in a folder and upload  
 * List of recipes will auto-populate with quick alpha links at the top  
+* Search recipes from `search.html` using the generated `search-index.json`  
 * Each recipe is displayed in a nice, clean format designed for use while cooking or at the grocery store – no extra 💩 or ads  
 * Auto-generated links to a Google image search for that dish, recipes on Serious Eats and Google, and for restaurants on Yelp (in case you burn something and need takeout fast)  
 * To save your place while scrolling up around on the page, click the step you're on to highlight it; click it again to remove the highlight, or use the left/right arrow keys to advance  

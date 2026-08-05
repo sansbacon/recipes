@@ -1,57 +1,102 @@
-<!-- Load Lunr.js from a CDN -->
-<script src="https://cloudflare.com"></script>
+<!doctype html>
+<html profile="http://www.w3.org/2005/10/profile">
+	<head>
+		<title>Recipe Search</title>
 
-<script>
-let searchIndex = [];
-let lunrIndex;
+		<!-- basics -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
-// 1. Fetch your generated JSON data
-fetch('/search-index.json')
-  .then(response => response.json())
-  .then(data => {
-    searchIndex = data;
-    
-    // 2. Initialize Lunr and define fields to search
-    lunrIndex = lunr(function () {
-      this.ref('url'); // Unique identifier
-      this.field('title', { boost: 10 }); // Weights titles higher
-      this.field('content');
+		<!-- font and styles -->
+		<link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,400i,700,700i,900,900i" rel="stylesheet">
+		<link href="stylesheet.css" rel="stylesheet" type="text/css">
 
-      // Add documents to the index
-      data.forEach(doc => {
-        this.add(doc);
-      });
-    });
-  });
+		<!-- jquery -->
+		<script
+			src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous">
+		</script>
+	</head>
 
-// 3. Listen for typing in the search box
-document.getElementById('search-input').addEventListener('input', function(e) {
-  const query = e.target.value;
-  const resultsContainer = document.getElementById('search-results');
-  resultsContainer.innerHTML = ''; // Clear old results
+	<body>
+		<div id="wrapper" class="search">
+			<p id="back">
+				<a href="index.html">
+					<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+						<path fill="currentColor" d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"></path>
+					</svg>
+				</a>
+			</p>
 
-  if (query.length < 2) return; // Wait for at least 2 characters
+			<section id="search-page">
+				<h1>Search Recipes</h1>
+				<p>Enter at least two characters to search titles and recipe text.</p>
+				<input type="text" id="search-input" placeholder="Search recipes...">
+				<ul id="search-results"></ul>
+			</section>
 
-  // 4. Perform the search
-  const results = lunrIndex.search(query);
+			<section id="footer">
+				<ul>
+					<li>A super minimal recipe website by <a href="http://www.jeffreythompson.org">Jeff Thompson</a>
+					<br>Adapted for GitHub Pages by <a href="https://acc240.com">Aaron Councilman</a></li>
+					<li><a href="https://github.com/counc009/recipes">Source code</a></li>
+				</ul>
+			</section>
+		</div>
 
-  // 5. Display the matching results
-  results.forEach(result => {
-    // Match the result ref (URL) back to our original data for the title
-    const item = searchIndex.find(doc => doc.url === result.ref);
-    
-    if (item) {
-      const li = document.createElement('li');
-      li.innerHTML = `<a href="${item.url}">${item.title}</a>`;
-      resultsContainer.appendChild(li);
-    }
-  });
-});
-</script>
+		<!-- lunr search library -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha512-LlJ5b5W6Wjva9rfhh0oUCkR5s9pkt2mmTWZQ+FYP4PyuI/6Gf1fYsVuM5tg70dTYCDXADl1WqIgTc3BXLSVD2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+		<script>
+		let searchIndex = [];
+		let lunrIndex;
 
-<!-- Search Input -->
-<input type="text" id="search-input" placeholder="Search articles...">
+		function renderResults(results) {
+			const resultsContainer = document.getElementById('search-results');
+			resultsContainer.innerHTML = '';
 
-<!-- Results List -->
-<ul id="search-results"></ul>
+			results.forEach(result => {
+				const item = searchIndex.find(doc => doc.url === result.ref);
+				if (!item) return;
+
+				const li = document.createElement('li');
+				li.innerHTML = `<a href="${item.url}">${item.title}</a>`;
+				resultsContainer.appendChild(li);
+			});
+		}
+
+		fetch('search-index.json')
+			.then(response => response.json())
+			.then(data => {
+				searchIndex = data;
+				lunrIndex = lunr(function () {
+					this.ref('url');
+					this.field('title', { boost: 10 });
+					this.field('content');
+
+					searchIndex.forEach(doc => this.add(doc));
+				});
+			})
+			.catch(() => {
+				console.warn('Unable to load search-index.json');
+			});
+
+		document.getElementById('search-input').addEventListener('input', function (e) {
+			const query = e.target.value.trim();
+			if (!lunrIndex || query.length < 2) {
+				document.getElementById('search-results').innerHTML = '';
+				return;
+			}
+
+			try {
+				const results = lunrIndex.search(query);
+				renderResults(results);
+			} catch (err) {
+				console.warn('Search query failed', err);
+			}
+		});
+		</script>
+	</body>
+</html>
