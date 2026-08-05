@@ -3,18 +3,18 @@
 # A hook script to find all recipe Markdown files and list them in the
 # index.html page appropriately
 
-RECIPES=$(find ./recipes/ -type f | sed 's#^./recipes/##' | grep -v '^_' | sed 's/.*/"\0"/g' | sort | awk '{print}' ORS=', ' | sed 's/, $//g')
-REPLACE="let commitSetRecipes = [$RECIPES];"
-
-sed -i.bak "s/let commitSetRecipes = \[.*\];/${REPLACE}/" ./index.html
-rm ./index.html.bak
-git add ./index.html
-
-# Regenerate the search index for the current recipes
+# Regenerate the index.html recipe list and the search index using Node.
 if ! command -v node >/dev/null 2>&1; then
-  echo "[pre-commit] error: node not found; install Node.js to generate search-index.json" >&2
+  echo "[pre-commit] error: node not found; install Node.js to generate search-index.json and update index.html" >&2
   exit 1
 fi
+
+if ! node ./scripts/update-index.js; then
+  echo "[pre-commit] error: index.html update failed" >&2
+  exit 1
+fi
+
+git add ./index.html
 
 if ! node ./scripts/build-search-index.js; then
   echo "[pre-commit] error: search-index.json generation failed" >&2
@@ -22,3 +22,5 @@ if ! node ./scripts/build-search-index.js; then
 fi
 
 git add ./search-index.json
+
+echo "[pre-commit] success: index.html and search-index.json updated"
