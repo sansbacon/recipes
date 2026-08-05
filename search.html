@@ -33,7 +33,11 @@
 			<section id="search-page">
 				<h1>Search Recipes</h1>
 				<p>Enter at least two characters to search titles and recipe text.</p>
-				<input type="text" id="search-input" placeholder="Search recipes...">
+				<div class="search-controls">
+					<input type="text" id="search-input" placeholder="Search recipes..." autocomplete="off">
+					<button id="search-button" type="button">Search</button>
+				</div>
+				<p id="search-message"></p>
 				<ul id="search-results"></ul>
 			</section>
 
@@ -52,10 +56,18 @@
 		<script>
 		let searchIndex = [];
 		let lunrIndex;
+		let searchReady = false;
 
 		function renderResults(results) {
 			const resultsContainer = document.getElementById('search-results');
+			const message = document.getElementById('search-message');
 			resultsContainer.innerHTML = '';
+			message.textContent = '';
+
+			if (!results.length) {
+				message.textContent = 'No results found.';
+				return;
+			}
 
 			results.forEach(result => {
 				const item = searchIndex.find(doc => doc.url === result.ref);
@@ -67,26 +79,24 @@
 			});
 		}
 
-		fetch('search-index.json')
-			.then(response => response.json())
-			.then(data => {
-				searchIndex = data;
-				lunrIndex = lunr(function () {
-					this.ref('url');
-					this.field('title', { boost: 10 });
-					this.field('content');
+		function performSearch() {
+			const query = document.getElementById('search-input').value.trim();
+			const message = document.getElementById('search-message');
+			const resultsContainer = document.getElementById('search-results');
+			message.textContent = '';
+			resultsContainer.innerHTML = '';
 
-					searchIndex.forEach(doc => this.add(doc));
-				});
-			})
-			.catch(() => {
-				console.warn('Unable to load search-index.json');
-			});
+			if (query.length === 0) {
+				return;
+			}
 
-		document.getElementById('search-input').addEventListener('input', function (e) {
-			const query = e.target.value.trim();
-			if (!lunrIndex || query.length < 2) {
-				document.getElementById('search-results').innerHTML = '';
+			if (query.length < 2) {
+				message.textContent = 'Enter at least two characters to search.';
+				return;
+			}
+
+			if (!searchReady) {
+				message.textContent = 'Search index is still loading. Please wait a moment and try again.';
 				return;
 			}
 
@@ -95,8 +105,48 @@
 				renderResults(results);
 			} catch (err) {
 				console.warn('Search query failed', err);
+				message.textContent = 'Search could not be completed. Try a simpler query.';
 			}
-		});
+		}
+
+		function initSearch() {
+			const input = document.getElementById('search-input');
+			const button = document.getElementById('search-button');
+			const message = document.getElementById('search-message');
+
+			input.focus();
+			message.textContent = 'Loading search index...';
+
+			input.addEventListener('keydown', function (e) {
+				if (e.key === 'Enter') {
+					e.preventDefault();
+					performSearch();
+				}
+			});
+
+			button.addEventListener('click', performSearch);
+
+			fetch('search-index.json')
+				.then(response => response.json())
+				.then(data => {
+					searchIndex = data;
+					lunrIndex = lunr(function () {
+						this.ref('url');
+						this.field('title', { boost: 10 });
+						this.field('content');
+
+						searchIndex.forEach(doc => this.add(doc));
+					});
+					searchReady = true;
+					message.textContent = '';
+				})
+				.catch(() => {
+					console.warn('Unable to load search-index.json');
+					message.textContent = 'Unable to load search index.';
+				});
+		}
+
+		window.addEventListener('DOMContentLoaded', initSearch);
 		</script>
 	</body>
 </html>
