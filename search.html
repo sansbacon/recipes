@@ -31,7 +31,7 @@
 			</p>
 
 			<section id="search-page">
-				<h1>Search Recipes</h1>
+				<h1>Search Dad's Recipe Book</h1>
 				<p>Enter at least two characters to search titles and recipe text.</p>
 				<div class="search-controls">
 					<input type="text" id="search-input" placeholder="Search recipes..." autocomplete="off">
@@ -41,17 +41,10 @@
 				<ul id="search-results"></ul>
 			</section>
 
-			<section id="footer">
-				<ul>
-					<li>A super minimal recipe website by <a href="http://www.jeffreythompson.org">Jeff Thompson</a>
-					<br>Adapted for GitHub Pages by <a href="https://acc240.com">Aaron Councilman</a></li>
-					<li><a href="https://github.com/counc009/recipes">Source code</a></li>
-				</ul>
-			</section>
 		</div>
 
 		<!-- lunr search library -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha512-LlJ5b5W6Wjva9rfhh0oUCkR5s9pkt2mmTWZQ+FYP4PyuI/6Gf1fYsVuM5tg70dTYCDXADl1WqIgTc3BXLSVD2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 		<script>
 		let searchIndex = [];
@@ -126,8 +119,13 @@
 
 			button.addEventListener('click', performSearch);
 
-			fetch('search-index.json')
-				.then(response => response.json())
+			fetch('search-index.json', { cache: 'no-store' })
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('HTTP ' + response.status);
+					}
+					return response.json();
+				})
 				.then(data => {
 					searchIndex = data;
 					lunrIndex = lunr(function () {
@@ -142,7 +140,7 @@
 				})
 				.catch(() => {
 					console.warn('Unable to load search-index.json');
-					message.textContent = 'Unable to load search index.';
+					message.textContent = 'Unable to load search index. Refresh the page to retry.';
 				});
 		}
 
