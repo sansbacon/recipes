@@ -9,3 +9,16 @@ REPLACE="let commitSetRecipes = [$RECIPES];"
 sed -i.bak "s/let commitSetRecipes = \[.*\];/${REPLACE}/" ./index.html
 rm ./index.html.bak
 git add ./index.html
+
+# Regenerate the search index for the current recipes
+if ! command -v node >/dev/null 2>&1; then
+  echo "[pre-commit] error: node not found; install Node.js to generate search-index.json" >&2
+  exit 1
+fi
+
+if ! node ./scripts/build-search-index.js; then
+  echo "[pre-commit] error: search-index.json generation failed" >&2
+  exit 1
+fi
+
+git add ./search-index.json

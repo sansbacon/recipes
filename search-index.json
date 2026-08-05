@@ -1,12 +1,7 @@
----
-layout: null
----
 [
-  {% for post in site.posts %}
   {
-    "title": {{ post.title | jsonify }},
-    "url": {{ post.url | relative_url | jsonify }},
-    "content": {{ post.content | strip_html | strip_newlines | jsonify }}
-  }{% unless forloop.last %},{% endunless %}
-  {% endfor %}
+    "title": "CAVATAPPI WITH SAUSAGE AND PEAS",
+    "url": "recipe.html#cavatappi-sausage-peas",
+    "content": "CAVATAPPI WITH SAUSAGE AND PEAS info About 5 minutes prep, 30 minutes total about 4 servings ingredients 1 tablespoon olive oil 1 small yellow onion, diced 1 small red bell pepper, diced 2 mild italian sausages, casing removed 3 cloves garlic, minced 1/4 teaspoon crushed red pepper 1 pound cavatappi pasta 1 tablespoon salt 64 oz water 4.5 6 quart pot with lid 1 jar quality pasta sauce (Rao's) 1/2 cup frozen peas 1/4 cup chopped parsley Parmesan cheese and black pepper to taste steps 1. Heat water, salt, and pasta in the pot until boiling. Reduce to simmer and cook 4 minutes. Drain and reserve cooking water. 1. While pasta is cooking, heat dutch oven or large skillet over medium heat ( 2 minutes). Add oil, when it moves easily across pan, add onion. Cook until onion is softened, approximately 5 7 minutes. 1. Add red pepper and cook until softened, approximately 3 5 minutes. Tear sausage into pieces and add to pot. Cook until no longer pink, approximately 5 minutes. Use a cooking spoon to break into crumbles. 1. Once sausage is cooked, add jar of pasta sauce and frozen peas. Cook 2 3 minutes to combine. 1. Off heat, add chopped parsley, cheese, and black pepper. based on https://altonbrown.com/recipes/cold water pasta method/"
+  }
 ]
