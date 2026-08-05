@@ -1,0 +1,57 @@
+<!-- Load Lunr.js from a CDN -->
+<script src="https://cloudflare.com"></script>
+
+<script>
+let searchIndex = [];
+let lunrIndex;
+
+// 1. Fetch your generated JSON data
+fetch('/search-index.json')
+  .then(response => response.json())
+  .then(data => {
+    searchIndex = data;
+    
+    // 2. Initialize Lunr and define fields to search
+    lunrIndex = lunr(function () {
+      this.ref('url'); // Unique identifier
+      this.field('title', { boost: 10 }); // Weights titles higher
+      this.field('content');
+
+      // Add documents to the index
+      data.forEach(doc => {
+        this.add(doc);
+      });
+    });
+  });
+
+// 3. Listen for typing in the search box
+document.getElementById('search-input').addEventListener('input', function(e) {
+  const query = e.target.value;
+  const resultsContainer = document.getElementById('search-results');
+  resultsContainer.innerHTML = ''; // Clear old results
+
+  if (query.length < 2) return; // Wait for at least 2 characters
+
+  // 4. Perform the search
+  const results = lunrIndex.search(query);
+
+  // 5. Display the matching results
+  results.forEach(result => {
+    // Match the result ref (URL) back to our original data for the title
+    const item = searchIndex.find(doc => doc.url === result.ref);
+    
+    if (item) {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${item.url}">${item.title}</a>`;
+      resultsContainer.appendChild(li);
+    }
+  });
+});
+</script>
+
+
+<!-- Search Input -->
+<input type="text" id="search-input" placeholder="Search articles...">
+
+<!-- Results List -->
+<ul id="search-results"></ul>
