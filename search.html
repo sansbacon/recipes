@@ -146,7 +146,11 @@
 				});
 		}
 
-		window.addEventListener('DOMContentLoaded', initSearch);
+		if (document.readyState === 'loading') {
+			window.addEventListener('DOMContentLoaded', initSearch);
+		} else {
+			initSearch();
+		}
 		</script>
 	</body>
 </html>
