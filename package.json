@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build-search-index": "node ./scripts/build-search-index.js"
+    "update-index": "node ./scripts/update-index.js",
+    "build-search-index": "node ./scripts/build-search-index.js",
+    "build-generated-assets": "npm run update-index && npm run build-search-index"
   }
 }
