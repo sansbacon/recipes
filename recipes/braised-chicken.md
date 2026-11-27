@@ -6,12 +6,12 @@ Basic recipe for braising chicken thighs.
 * 12-16 servings  
 
 ## ingredients
-1 cup chicken broth
-1 tablespoon sugar
-1 tablespoon ground cumin
-1 tablespoon smoked paprika
-3 cloves garlic, skin removed and smashed
-Salt and pepper
+* 1 cup chicken broth
+* 1 tablespoon sugar
+* 1 tablespoon ground cumin
+* 1 tablespoon smoked paprika
+* 3 cloves garlic, skin removed and smashed
+* Salt and pepper
 4 pounds boneless, skinless chicken thighs, halved crosswise
 
 ## steps  

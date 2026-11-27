@@ -34,5 +34,4 @@ Caesar-style romaine salad with a garlicky, lemony dressing and plenty of cheese
 * Add dressing gradually; the salad should be lightly coated rather than saturated.
 
 ## based on
-
 * https://www.food.com/recipe/rick-bayless-family-caesar-salad-479207
