@@ -12,7 +12,7 @@ Basic recipe for braising chicken thighs.
 * 1 tablespoon smoked paprika
 * 3 cloves garlic, skin removed and smashed
 * Salt and pepper
-4 pounds boneless, skinless chicken thighs, halved crosswise
+* 4 pounds boneless, skinless chicken thighs, halved crosswise
 
 ## steps  
 1. Bring broth, sugar, spices, salt, pepper, and garlic to boil in large Dutch oven over high heat, stirring to dissolve sugar. 
