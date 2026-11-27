@@ -39,6 +39,7 @@ $(document).ready(function() {
 
       // iterate sections, add to body
       let foundTitle = false;
+      let currentSectionId = null;
       for (let i in sections) {
         let section = sections[i];
 
@@ -51,9 +52,11 @@ $(document).ready(function() {
         section = section.replace(/\sid=".*?"/, '');
 
         // if this is the first section...
+        let appendToSection = false;
         if (!foundTitle) {
           id = 'title';
           foundTitle = true;
+          currentSectionId = id;
 
           // change page title too
           let elems = $(section);
@@ -62,7 +65,15 @@ $(document).ready(function() {
         }
         // for all other pages, get id from regex match
         else {
-          id = id[1];
+          let candidateId = id && id[1];
+          if (candidateId && $('#' + candidateId).length > 0) {
+            id = candidateId;
+            currentSectionId = id;
+          }
+          else {
+            id = currentSectionId;
+            appendToSection = true;
+          }
         }
 
         // make any urls (in sections listed at the top)
@@ -72,7 +83,12 @@ $(document).ready(function() {
         }
         
         // place the html inside its section
-        $('#' + id).html(section);
+        if (appendToSection) {
+          $('#' + id).append(section);
+        }
+        else {
+          $('#' + id).html(section);
+        }
       }
 
       // a few more bits to nicen things up...
