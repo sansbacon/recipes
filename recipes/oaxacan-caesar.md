@@ -3,6 +3,7 @@
 Caesar-style romaine salad with a garlicky, lemony dressing and plenty of cheese and tortilla crisps, with optional avocado.
 
 ## info
+* About 15 minutes total
 * 4 to 6 servings
 
 ## ingredients
@@ -16,7 +17,7 @@ Caesar-style romaine salad with a garlicky, lemony dressing and plenty of cheese
 1. Place the sliced romaine in a large bowl. Drizzle in about 1/4 cup of dressing and sprinkle with the Cotija.
 1. Toss to combine, adding a little more dressing if needed. Gently mix in tortilla strips.
 
-### Dressing
+### **Dressing**
 * 1 small garlic clove, peeled
 * 1/2 cup mayonnaise or light mayonnaise
 * 3 tablespoons fresh lemon juice
