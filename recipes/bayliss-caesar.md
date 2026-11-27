@@ -8,8 +8,8 @@ A classic Caesar-style romaine salad with a garlicky, lemony dressing and plenty
 
 ## ingredients
 * 8 cups romaine lettuce, loosely packed, sliced
-* 3 to 4 tablespoons grated Parmesan cheese
-* 1 cup garlic-flavored croutons, or to taste
+* 3 to 4 tablespoons grated cotija cheese
+* 1 cup tortilla strips
 
 ### Dressing
 * 1 small garlic clove, peeled
@@ -22,14 +22,14 @@ A classic Caesar-style romaine salad with a garlicky, lemony dressing and plenty
 * Freshly ground black pepper, to taste
 
 ## steps
-1. Make the dressing: Crush the garlic through a garlic press into a 2-cup glass jar with a lid.
+1. Crush the garlic through a garlic press into a 2-cup glass jar with a lid.
 1. Add the mayonnaise, lemon juice, Worcestershire sauce, cold water, oil, salt, and pepper. Cover tightly and shake vigorously until smooth and emulsified.
-1. Place the sliced romaine in a large bowl. Drizzle in about 1/4 cup of dressing and sprinkle with the Parmesan.
-1. Toss to combine, adding a little more dressing if needed.
-1. Divide among salad plates and sprinkle with the croutons.
+1. Place the sliced romaine in a large bowl. Drizzle in about 1/4 cup of dressing and sprinkle with the Cotija.
+1. Toss to combine, adding a little more dressing if needed. Gently mix in tortilla strips.
 
 ## notes
 * Add dressing gradually; the salad should be lightly coated rather than saturated.
 
 ## based on
-* Source not recorded
+
+* https://www.food.com/recipe/rick-bayless-family-caesar-salad-479207
